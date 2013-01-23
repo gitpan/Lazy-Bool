@@ -4,7 +4,7 @@ use 5.010000;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 sub new {
 	my $klass = shift;
@@ -68,15 +68,15 @@ Lazy::Bool - Boolean wrapper lazy
 =head1 SYNOPSIS
 
   use Lazy::Bool;
-  
+
   my $result = Lazy::Bool->new(sub{  
-		# complex boolean expression
-	});
+  	# complex boolean expression
+  });
+
+  ...
+  if($result) { # now we evaluate the expression
 	
-	...
-	if($result) { # now we evaluate the expression
-		
-	}
+  }
 
 Using this module you can play with lazy booleans. Using expressions &, | and ! you can delay the expression evaluation until necessary.
 
@@ -86,11 +86,11 @@ This is a proof-of-concept for a boolean wrapper using lazy initialization using
 
 The expression will be evaluated in boolean context, like
 
-	if($lazy_boolean) { }
-	unless($lazy_boolean) { }
-	
-	$lazy_boolean && $other  # for a lazy operation use the &
-	$lazy_boolean || $other  # for a lazy operation use the | 
+  if($lazy_boolean) { }
+  unless($lazy_boolean) { }
+
+  $lazy_boolean && $other  # for a lazy operation use the &
+  $lazy_boolean || $other  # for a lazy operation use the | 
 
 =head1 METHODS
 	
@@ -98,29 +98,29 @@ The expression will be evaluated in boolean context, like
 
 The constructor, can receive one expression or a subroutine reference.
 
-	use Lazy::Bool;
+  use Lazy::Bool;
 
-	my $result1 = Lazy::Bool->new( 1 );
-	
-	my $result2 = Lazy::Bool->new(sub{ 
-		$a > $b && $valid 
-	});
+  my $result1 = Lazy::Bool->new( 1 );
+
+  my $result2 = Lazy::Bool->new(sub{ 
+    $a > $b && $valid 
+  });
 
 =head2 true
 
 Returns a lazy true value
 
-	use Lazy::Bool;
-	
-	my $true = Lazy::Bool::true;
+  use Lazy::Bool;
+
+  my $true = Lazy::Bool::true;
 
 =head2 false
 
 Returns a lazy false value
 
-	use Lazy::Bool;
-	
-	my $false = Lazy::Bool::false;
+  use Lazy::Bool;
+
+  my $false = Lazy::Bool::false;
 
 =head2 Overloaded Operators
 
@@ -128,12 +128,12 @@ Returns a lazy false value
 
 Used as a logical and (&&), you can create operations between lazy booleans and scalars (will be changed to lazy).
 
-	use Lazy::Bool;
+  use Lazy::Bool;
 
-	my $true = Lazy::Bool::true;
-	my $false = Lazy::Bool::false;
+  my $true = Lazy::Bool::true;
+  my $false = Lazy::Bool::false;
 
-	my $result = $true & $false;
+  my $result = $true & $false;
 	
   print "success" unless $result; # now will be evaluated!
 	
@@ -143,12 +143,12 @@ Important: There is no shortcut if the first value is "false"
 
 Used as a logical or (||), you can create operations between lazy booleans and scalars (will be changed to lazy).
 
-	use Lazy::Bool;
+  use Lazy::Bool;
 
-	my $true = Lazy::Bool::true;
-	my $false = Lazy::Bool::false;
+  my $true = Lazy::Bool::true;
+  my $false = Lazy::Bool::false;
 
-	my $result = $true | $false;
+  my $result = $true | $false;
 
   print "success" if $result; # now will be evaluated!
 
@@ -158,31 +158,31 @@ Important: There is no shortcut if the first value is "true"
 
 Used as a logical negation (not), you can create a lazy negation.
 
-	use Lazy::Bool;
+  use Lazy::Bool;
 
-	my $false = Lazy::Bool::false;
+  my $false = Lazy::Bool::false;
 
-	my $result = ! $false;
+  my $result = ! $false;
 
-	print "success" if $result; # now will be evaluated!
+  print "success" if $result; # now will be evaluated!
 
 =head2 EXAMPLES
 
 A complex example:
 
-	use Lazy::Bool;
-	use Test::More tests=> 3;
-	my $a = 6;
-	my $b = 4;
-	my $x  = Lazy::Bool->new(sub{ $a > $b });
-	my $false = Lazy::Bool::false;
-	
-	my $result = ($x | $false) & ( ! ( $false & ! $false ) );
-	
-	# now the expressions will be evaluate
-	ok($result,    "complex expression should be true");
-	ok(!! $x ,  "double negation of true value should be true");	
-	ok(!!! $false, "truple negation of false value should be true");	
+  use Lazy::Bool;
+  use Test::More tests=> 3;
+  my $a = 6;
+  my $b = 4;
+  my $x  = Lazy::Bool->new(sub{ $a > $b });
+  my $false = Lazy::Bool::false;
+
+  my $result = ($x | $false) & ( ! ( $false & ! $false ) );
+
+  # now the expressions will be evaluate
+  ok($result,    "complex expression should be true");
+  ok(!! $x ,  "double negation of true value should be true");	
+  ok(!!! $false, "truple negation of false value should be true");	
 
 =head2 TODO
 
@@ -198,7 +198,7 @@ None
 
 =head1 SEE ALSO
 
- L<Scalar::Lazy> and L<Scalar::Defer>
+L<Scalar::Lazy> and L<Scalar::Defer>
 
 =head1 AUTHOR
 
