@@ -4,6 +4,7 @@ MANIFEST
 META.yml
 Makefile.PL
 README
+README.md
 dist.ini
 lib/Lazy/Bool.pm
 lib/Lazy/Bool/Cached.pm
