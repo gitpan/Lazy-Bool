@@ -4,56 +4,63 @@ use 5.010000;
 use strict;
 use warnings;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 sub new {
-	my $klass = shift;
-	my $code  = shift;
+  my ($type, $code) = @_;
+	
+	my $klass = ref($type) || $type;
 	
 	my $ref = (ref($code) eq 'CODE')? $code : sub { $code };
 	
-	bless $ref, $klass;
+	bless $ref => $klass;
 }
 
 sub true {
-	Lazy::Bool->new( 1 )
+	shift->new( sub{ 1 })
 }
 
 sub false {
-	Lazy::Bool->new( 0 )
+	shift->new( sub{ 0 })
 }
 
 use overload 
 	'bool' => \&_to_bool,
-	'&'    => \&_and,
-	'|'    => \&_or, 
-	'!'    => \&_neg;
+	'&'    => \&_lazy_and,
+	'|'    => \&_lazy_or, 
+	'!'    => \&_lazy_neg;
 
 sub _to_bool {
 	shift->()
 }	
 
-sub _and {
-	my $a = shift;
-	my $b = shift;
+sub _lazy_and {
+	my ($a, $b) = @_;
 	
-	Lazy::Bool->new(sub {
-		$a->_to_bool & $b
+	$a->new(sub {
+		my $real = $a->_to_bool;
+		
+		return $real unless $real;
+		
+		$real & $b
 	})
 }
 
-sub _or {
-	my $a = shift;
-	my $b = shift;
+sub _lazy_or {
+	my ($a, $b) = @_;
 	
-	Lazy::Bool->new(sub { 
-		$a->_to_bool | $b
+	$a->new(sub {
+		my $real = $a->_to_bool; 
+		
+		return $real if $real;
+		
+		$real | $b
 	})
 }
 
-sub _neg {
+sub _lazy_neg {
 	my $a  = shift;
-	Lazy::Bool->new(sub { 
+	$a->new(sub { 
 			! $a->_to_bool
 	})
 }
@@ -137,7 +144,7 @@ Used as a logical and (&&), you can create operations between lazy booleans and 
 	
   print "success" unless $result; # now will be evaluated!
 	
-Important: There is no shortcut if the first value is "false"
+Important: Will shortcut the boolean evaluation if the first value is "false"
 	
 =head3 Bit or '|'
 
@@ -152,7 +159,7 @@ Used as a logical or (||), you can create operations between lazy booleans and s
 
   print "success" if $result; # now will be evaluated!
 
-Important: There is no shortcut if the first value is "true"
+Important: Will shortcut the boolean evaluation if the first value is "true"
 
 =head3 Negation (!)
 

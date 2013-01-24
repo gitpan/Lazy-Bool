@@ -1,8 +1,11 @@
 Changes
-Makefile.PL
+LICENSE
 MANIFEST
+META.yml
+Makefile.PL
 README
-t/Lazy-Bool.t
+dist.ini
 lib/Lazy/Bool.pm
-META.yml                                 Module YAML meta-data (added by MakeMaker)
-META.json                                Module JSON meta-data (added by MakeMaker)
+lib/Lazy/Bool/Cached.pm
+t/Lazy-Bool-Cached.t
+t/Lazy-Bool.t
