@@ -20,7 +20,7 @@ my %WriteMakefileArgs = (
   "LICENSE" => "perl",
   "NAME" => "Lazy::Bool",
   "PREREQ_PM" => {},
-  "VERSION" => "0.05",
+  "VERSION" => "0.05.1",
   "test" => {
     "TESTS" => "t/*.t"
   }
