@@ -19,5 +19,6 @@ Revision history for Perl extension Lazy::Bool.
 	- add helper lzb and lzbc to create instances (exported)
 	- Improve documentation, readme, etc	
 	
-0.05.1   Sat Jan 26 20:29:43 2013 
+0.06   Sat Jan 26 20:29:43 2013 
 	- small change: use base instead use parent, to be compatible with perl 5.00405
+	

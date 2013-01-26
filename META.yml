@@ -18,4 +18,4 @@ resources:
   bugtracker: https://github.com/peczenyj/Lazy-Bool/issues
   homepage: https://github.com/peczenyj/Lazy-Bool
   repository: git://github.com/peczenyj/Lazy-Bool.git
-version: 0.05.1
+version: 0.06

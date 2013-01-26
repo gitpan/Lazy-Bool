@@ -6,7 +6,7 @@ use warnings;
 use base 'Lazy::Bool';
 use Exporter 'import';
 
-our $VERSION   = '0.05.1';
+our $VERSION   = '0.06';
 our @EXPORT_OK = qw(lzbc);
 
 sub lzbc(&) {
